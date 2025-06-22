@@ -1,0 +1,25 @@
+<div class="flex flex-col sm:flex-row">
+	<img class="w-full object-cover sm:w-[240px]" [src]="data()?.img" alt="Produto" />
+	<div class="flex w-full flex-col px-0 max-sm:pt-4 sm:pl-4">
+		<h2 class="text-2xl font-semibold">{{ data()?.product }}</h2>
+		<p class="text-foreground/40 mt-2 text-sm">
+			{{ data()?.description }}
+		</p>
+		<hr class="mt-4" />
+		<div class="mt-auto">
+			<div class="mt-4 flex items-center justify-between">
+				<span class="text-2xl font-bold text-green-600">{{ data()?.sale }}</span>
+				<span class="text-input text-sm line-through">{{ data()?.price }}</span>
+			</div>
+			<a href="#" class="hover:text-foreground flex gap-1 text-sm underline underline-offset-2 transition-all" target="_blank"
+				>Buy Now
+				<svg aria-hidden="true" height="7" viewBox="0 0 6 6" width="7">
+					<path
+						d="M1.25215 5.54731L0.622742 4.9179L3.78169 1.75597H1.3834L1.38936 0.890915H5.27615V4.78069H4.40513L4.41109 2.38538L1.25215 5.54731Z"
+						fill="currentColor"
+					></path>
+				</svg>
+			</a>
+		</div>
+	</div>
+</div>
