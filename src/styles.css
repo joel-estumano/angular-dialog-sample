@@ -123,3 +123,16 @@
 body.on-dialog {
 	padding-right: var(--scrollbar);
 }
+
+body.on-dialog::after {
+	content: "";
+	display: block;
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: var(--scrollbar);
+	height: 100vh;
+	background: var(--background);
+	z-index: 999;
+	pointer-events: none;
+}

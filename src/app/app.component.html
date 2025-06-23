@@ -1,31 +1,32 @@
-<main
-	class="main mx-auto grid h-svh w-full max-w-screen-xl grid-rows-[25%_1fr_25%] items-center justify-items-center overflow-y-auto sm:h-dvh sm:max-h-[60rem]"
->
-	<div class="relative row-start-1 mb-auto flex h-full w-full flex-wrap items-center justify-center gap-4 px-16 py-8 max-sm:mb-16 max-sm:px-4 xl:px-8">
-		<h1 class="text-xl xl:text-3xl">Angular Dialog Sample</h1>
-	</div>
+<main class="mx-auto flex h-auto min-h-screen max-w-[1920px] flex-col">
+	<div class="grid h-full w-full grow grid-rows-[25%_1fr_25%] items-center justify-items-center overflow-y-auto">
+		<div class="relative row-start-1 mb-auto flex h-full w-full flex-wrap items-center justify-center gap-4 px-16 py-8 max-sm:mb-16 max-sm:px-4 xl:px-8">
+			<h1 class="text-xl xl:text-3xl">Angular Dialog Sample</h1>
+		</div>
 
-	<div class="row-start-2 flex h-full w-full flex-col items-center justify-center space-y-4 px-16 max-sm:px-4 xl:px-8">
-		<div class="flex h-auto w-full items-center justify-center space-x-4">
-			@for (button of buttons; track $index) {
-				<app-button [title]="button.name" (click)="launchDialog($index)">
-					{{ button.name }}
-				</app-button>
+		<div class="row-start-2 flex h-full w-full flex-col items-center justify-center space-y-4 px-16 max-sm:px-4 xl:px-8">
+			<div class="flex h-auto w-full items-center justify-center space-x-4">
+				@for (button of buttons; track $index) {
+					<app-button [title]="button.name" (click)="launchDialog($index)">
+						{{ button.name }}
+					</app-button>
+				}
+			</div>
+			@if (data().name || data().email) {
+				<div class="bg-muted rounded-lg p-4 sm:p-6">
+					<p class="text-sx">Dialog e result:</p>
+					<pre>{{ data() | json }}</pre>
+				</div>
 			}
 		</div>
-		@if (data().name || data().email) {
-			<div class="bg-muted rounded-lg p-4 sm:p-6">
-				<p class="text-sx">Dialog e result:</p>
-				<pre>{{ data() | json }}</pre>
-			</div>
-		}
-	</div>
 
-	<footer class="relative row-start-3 mt-auto flex h-full w-full flex-wrap items-center justify-center gap-4 px-16 py-8 max-sm:mb-16 max-sm:px-4 xl:px-8">
-		<p class="text-foreground/40">
-			<a href="https://www.joelestumano.com/" target="_blank" class="hover:text-foreground transition-all">Joel Estumano 🚀</a>
-			© 2025
-		</p>
-	</footer>
+		<footer class="relative row-start-3 mt-auto flex h-full w-full flex-wrap items-center justify-center gap-4 px-16 py-8 max-sm:mb-16 max-sm:px-4 xl:px-8">
+			<p class="text-foreground/40">
+				<a href="https://www.joelestumano.com/" target="_blank" class="hover:text-foreground transition-all">Joel Estumano 🚀</a>
+				© 2025
+			</p>
+		</footer>
+	</div>
 </main>
+
 <app-root-dialog />

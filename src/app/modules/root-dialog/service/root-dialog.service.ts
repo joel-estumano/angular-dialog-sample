@@ -1,11 +1,12 @@
 import { BehaviorSubject, Observable } from "rxjs";
-import { IComponentOutletData as IComponentOutletDataBase } from "@interfaces/interfaces";
+import { IDialogComponentOutletData as IDialogComponentOutletDataBase } from "../interfaces/dialog-component-outlet-data";
 import { Injectable } from "@angular/core";
 
 // Extende IComponentOutletData para incluir a propriedade opcional 'state'
-interface IComponentOutletData<T, D> extends IComponentOutletDataBase<T, D> {
+interface IDialogComponentOutletData<T, D> extends IDialogComponentOutletDataBase<T, D> {
 	state?: {
 		open: { set: (value: boolean) => void };
+		isVisible: { set: (value: boolean) => void };
 		isActive: { set: (value: boolean) => void };
 	};
 }
@@ -24,7 +25,7 @@ export class RootDialogService<T, D> {
 	 * Subject que mantém a lista de diálogos ativos.
 	 * Utiliza `BehaviorSubject` para permitir a emissão de valores iniciais e subsequentes.
 	 */
-	private dialogsSubject = new BehaviorSubject<IComponentOutletData<T, D>[]>([]);
+	private dialogsSubject = new BehaviorSubject<IDialogComponentOutletData<T, D>[]>([]);
 
 	/**
 	 * Retorna um `Observable` da lista de diálogos ativos.
@@ -32,7 +33,7 @@ export class RootDialogService<T, D> {
 	 *
 	 * @returns Observable contendo a lista de diálogos ativos.
 	 */
-	observable(): Observable<IComponentOutletData<T, D>[]> {
+	observable(): Observable<IDialogComponentOutletData<T, D>[]> {
 		return this.dialogsSubject.asObservable();
 	}
 
@@ -41,7 +42,7 @@ export class RootDialogService<T, D> {
 	 *
 	 * @param dialog Objeto contendo o componente e seus dados de entrada.
 	 */
-	launch(dialog: IComponentOutletData<T, D>) {
+	launch(dialog: IDialogComponentOutletData<T, D>) {
 		this.dialogsSubject.next([...this.dialogsSubject.value, dialog]);
 	}
 
@@ -58,15 +59,17 @@ export class RootDialogService<T, D> {
 
 		// Verifica se `state` existe antes de modificar
 		if (current[index]?.state) {
+			// Atualiza os estados do diálogo para iniciar o fechamento
 			current[index].state.open.set(false);
 			current[index].state.isActive.set(false);
 		}
 
 		// Aguarda a animação antes de remover o diálogo
 		setTimeout(() => {
+			current[index].state?.isVisible.set(false);
 			const updated = [...current.slice(0, index), ...current.slice(index + 1)];
 			this.dialogsSubject.next(updated);
-		}, 300); // Tempo da animação em milissegundos
+		}, 150); // Tempo da animação em milissegundos
 	}
 
 	/**

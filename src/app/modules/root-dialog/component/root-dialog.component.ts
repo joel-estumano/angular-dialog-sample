@@ -1,5 +1,5 @@
 import { Component, effect, inject, InjectionToken, Renderer2, RendererStyleFlags2, signal, WritableSignal } from "@angular/core";
-import { IComponentOutletData as IComponentOutletDataBase } from "@interfaces/interfaces";
+import { IDialogComponentOutletData as IDialogComponentOutletDataBase } from "../interfaces/dialog-component-outlet-data";
 import { RootDialogService } from "../service/root-dialog.service";
 import { DOCUMENT } from "@angular/common";
 
@@ -16,7 +16,7 @@ const WINDOW = new InjectionToken<Window>("window.token", {
 });
 
 // Extende IComponentOutletData para incluir a propriedade opcional 'state'
-interface IComponentOutletData<T, D> extends IComponentOutletDataBase<T, D> {
+interface IDialogComponentOutletData<T, D> extends IDialogComponentOutletDataBase<T, D> {
 	state: {
 		open: WritableSignal<boolean>; // Indica se o diálogo está aberto
 		isVisible: WritableSignal<boolean>; // Indica se o diálogo está visível
@@ -32,7 +32,7 @@ interface IComponentOutletData<T, D> extends IComponentOutletDataBase<T, D> {
 })
 export class RootDialogComponent<T, D> {
 	// Lista de diálogos gerenciada por sinais reativos
-	dialogs = signal<IComponentOutletData<T, D>[]>([]);
+	dialogs = signal<IDialogComponentOutletData<T, D>[]>([]);
 
 	// Injeção de dependências necessárias para manipulação do DOM e serviços
 	private window = inject(WINDOW); // Injeção do objeto window
@@ -42,7 +42,7 @@ export class RootDialogComponent<T, D> {
 
 	constructor() {
 		// Observa mudanças nos diálogos e atualiza a lista
-		this.service.observable().subscribe((dialogs) => this.dialogs.set(dialogs as IComponentOutletData<T, D>[]));
+		this.service.observable().subscribe((dialogs) => this.dialogs.set(dialogs as IDialogComponentOutletData<T, D>[]));
 
 		// Efeito reativo que gerencia o estado dos diálogos
 		effect(() => {
@@ -68,16 +68,7 @@ export class RootDialogComponent<T, D> {
 	close(index: number) {
 		const dialog = this.dialogs()[index];
 		if (!dialog?.state) return;
-
-		// Atualiza os estados do diálogo para iniciar o fechamento
-		dialog.state.open.set(false);
-		dialog.state.isActive.set(false);
-
-		// Aguarda um tempo antes de remover o diálogo completamente
-		setTimeout(() => {
-			dialog.state?.isVisible.set(false);
-			this.service.remove(index); // Remove o diálogo do serviço
-		}, 200);
+		this.service.remove(index); // Remove o diálogo do serviço
 	}
 
 	// Método para manipular a rolagem da página quando há diálogos abertos
