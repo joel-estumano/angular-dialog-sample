@@ -136,3 +136,7 @@ body.on-dialog::after {
 	z-index: 999;
 	pointer-events: none;
 }
+
+form.submmit input.ng-invalid {
+	@apply ring-destructive/20 dark:ring-destructive/40 border-destructive;
+}

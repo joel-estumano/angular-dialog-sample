@@ -4,24 +4,27 @@ import { RootDialogService } from "../service/root-dialog.service";
 import { DOCUMENT } from "@angular/common";
 
 // Criação de um token de injeção para a janela global (window)
-const WINDOW = new InjectionToken<Window>("window.token", {
+export const WINDOW = new InjectionToken<Window>("window.token", {
 	factory: () => {
 		// Verifica se o objeto window está disponível no ambiente
 		if (typeof window !== "undefined") {
 			return window;
 		}
 		// Retorna uma instância de Window caso não esteja disponível
+		/* istanbul ignore next */
 		return new Window();
 	}
 });
 
 // Extende IComponentOutletData para incluir a propriedade opcional 'state'
 interface IDialogComponentOutletData<T, D> extends IDialogComponentOutletDataBase<T, D> {
-	state: {
-		open: WritableSignal<boolean>; // Indica se o diálogo está aberto
-		isVisible: WritableSignal<boolean>; // Indica se o diálogo está visível
-		isActive: WritableSignal<boolean>; // Indica se o diálogo está ativo
-	};
+	state:
+		| {
+				open: WritableSignal<boolean>; // Indica se o diálogo está aberto
+				isVisible: WritableSignal<boolean>; // Indica se o diálogo está visível
+				isActive: WritableSignal<boolean>; // Indica se o diálogo está ativo
+		  }
+		| undefined;
 }
 
 @Component({

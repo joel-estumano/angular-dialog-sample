@@ -3,7 +3,7 @@ import { IDialogComponentOutletData as IDialogComponentOutletDataBase } from "..
 import { Injectable } from "@angular/core";
 
 // Extende IComponentOutletData para incluir a propriedade opcional 'state'
-interface IDialogComponentOutletData<T, D> extends IDialogComponentOutletDataBase<T, D> {
+export interface IDialogComponentOutletData<T, D> extends IDialogComponentOutletDataBase<T, D> {
 	state?: {
 		open: { set: (value: boolean) => void };
 		isVisible: { set: (value: boolean) => void };
